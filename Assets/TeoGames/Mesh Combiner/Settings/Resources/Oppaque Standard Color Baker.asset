@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9adbea3962b46abb8a456a50a3e4df3, type: 3}
+  m_Name: Oppaque Standard Color Baker
+  m_EditorClassIdentifier: 
+  textureSize: 128
+  cellSize: 3
+  surface: 1
+  targetShader: {fileID: 4800000, guid: a72473e52f22fb749887faddfbe15a82, type: 3}
+  textures:
+  - textureName: _MainTex
+    format: 4
+    linear: 0
+    defaultColor: {r: 0, g: 0, b: 0, a: 1}
+    texture: {fileID: 0}
+  - textureName: _EmissionTex
+    format: 4
+    linear: 0
+    defaultColor: {r: 0, g: 0, b: 0, a: 1}
+    texture: {fileID: 0}
+  - textureName: _SmoothnessTex
+    format: 63
+    linear: 1
+    defaultColor: {r: 0, g: 0, b: 0, a: 1}
+    texture: {fileID: 0}
+  shaders:
+  - shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+    properties:
+    - textureName: _MainTex
+      propertyName: _Color
+      propertyType: 0
+    - textureName: _EmissionTex
+      propertyName: _EmissionColor
+      propertyType: 0
+    - textureName: _SmoothnessTex
+      propertyName: _Glossiness
+      propertyType: 2

@@ -1,0 +1,31 @@
+------------------------
+Realistic FPS Controller
+    by Evolve Games
+------------------------
+
+FPS Controller:
+• FPS Controller is the Controller itself which you no longer have to set.
+• just paste into the scene from the folder: Assets/EvolveGames/RealisticFPSController/PlayerController
+
+Viewpoint:
+• Viewpoint is used to show an icon with text in the game...
+• For prefabs you have to set what you want it to write and if so what kind of icon you want... folder: Assets/EvolveGames/RealisticFPSController/Prefabs/Viewpoint
+
+3D:
+• Other 3D models are in the folder: Assets/EvolveGames/RealisticFPSController/Prefabs
+
+Demo:
+• Scene: Assets/EvolveGames/RealisticFPSController/Scenes/DemoScene
+• Everything is set in the demo, just turn on the scene and you're done...
+• The demo is used to view the functions and find out, what and how it works... :)
+
+Setup:
+• You drag the Player Controller to the scene and you're done...
+• You have Prefabs in Assets/EvolveGames/RealisticFPSController/Prefabs and you use this items in the scene.
+• That will be all you need...
+
+Otherwise you will find everything in the given scripts.. :)
+
+Further advice: if you want more advice join this discord: https://discord.com/invite/AWx7B66bUD
+
+© 2022 Evolve Studios

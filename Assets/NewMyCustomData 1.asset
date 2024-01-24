@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: NewMyCustomData 1
+  m_EditorClassIdentifier: 
+  texture: {fileID: 0}
+  objects:
+  - position: {x: -9.373795, y: -2.7769332, z: -2.4202204}
+    rotation: {x: -0.016662108, y: -0.6453041, z: 0.014080572, w: 0.76361436}
+    scale: {x: 0.99999976, y: 1, z: 0.9999999}
+    mesh: {fileID: 0}
+    materials:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    hasRigidbody: 0
+  - position: {x: -9.373796, y: -2.7769332, z: -2.4202209}
+    rotation: {x: -0.016662108, y: -0.6453041, z: 0.014080573, w: 0.76361436}
+    scale: {x: 0.99999976, y: 1, z: 0.9999999}
+    mesh: {fileID: 0}
+    materials:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    hasRigidbody: 0
+  - position: {x: -9.373798, y: -2.7769332, z: -2.4202218}
+    rotation: {x: -0.016662108, y: -0.6453041, z: 0.014080574, w: 0.76361436}
+    scale: {x: 0.99999976, y: 1, z: 0.9999999}
+    mesh: {fileID: 0}
+    materials:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    hasRigidbody: 0
+  - position: {x: -9.3738, y: -2.7769332, z: -2.4202223}
+    rotation: {x: -0.016662108, y: -0.6453041, z: 0.014080575, w: 0.76361436}
+    scale: {x: 0.99999976, y: 1, z: 0.9999999}
+    mesh: {fileID: 0}
+    materials:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    hasRigidbody: 0
+  - position: {x: -0.7127602, y: -0.98861575, z: 13.765203}
+    rotation: {x: -0.016662102, y: -0.6453041, z: 0.014080617, w: 0.76361436}
+    scale: {x: 9.999998, y: 10, z: 10}
+    mesh: {fileID: 0}
+    materials:
+    - {fileID: 0}
+    hasRigidbody: 1
+  - position: {x: 0.3032179, y: -0.92424685, z: 15.408256}
+    rotation: {x: -0.016209241, y: -0.646809, z: 0.014226282, w: 0.762347}
+    scale: {x: 3, y: 3, z: 3.0000002}
+    mesh: {fileID: 0}
+    materials:
+    - {fileID: 0}
+    hasRigidbody: 1
+  - position: {x: 0.6811615, y: -0.9746941, z: 13.933915}
+    rotation: {x: -0.02726312, y: -0.64396954, z: 0.015913354, w: 0.7643996}
+    scale: {x: 10.000001, y: 9.999998, z: 10.000001}
+    mesh: {fileID: 0}
+    materials:
+    - {fileID: 0}
+    hasRigidbody: 1
+  - position: {x: 2.1791003, y: -0.9954993, z: 13.506043}
+    rotation: {x: -0.02545768, y: -0.6492443, z: 0.048688814, w: 0.75859296}
+    scale: {x: 9.999998, y: 10.000001, z: 9.999998}
+    mesh: {fileID: 0}
+    materials:
+    - {fileID: 0}
+    hasRigidbody: 1

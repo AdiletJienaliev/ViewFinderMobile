@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9adbea3962b46abb8a456a50a3e4df3, type: 3}
+  m_Name: Oppaque HDRP Lit Color Baker
+  m_EditorClassIdentifier: 
+  textureSize: 128
+  cellSize: 3
+  surface: 1
+  targetShader: {fileID: -6465566751694194690, guid: 544d6e6edc4a7504ba298c61bf73b22b,
+    type: 3}
+  textures:
+  - textureName: _MainTex
+    format: 4
+    linear: 1
+    defaultColor: {r: 0, g: 0, b: 0, a: 1}
+    texture: {fileID: 0}
+  - textureName: _EmissionTex
+    format: 20
+    linear: 1
+    defaultColor: {r: 0, g: 0, b: 0, a: 1}
+    texture: {fileID: 0}
+  - textureName: _SmoothnessTex
+    format: 63
+    linear: 1
+    defaultColor: {r: 0, g: 0, b: 0, a: 1}
+    texture: {fileID: 0}
+  shaders:
+  - shader: {fileID: 4800000, guid: 6e4ae4064600d784cac1e41a9e6f2e59, type: 3}
+    properties:
+    - textureName: _MainTex
+      propertyName: _BaseColor
+      propertyType: 0
+    - textureName: _EmissionTex
+      propertyName: _EmissionColor
+      propertyType: 0
+    - textureName: _SmoothnessTex
+      propertyName: _Smoothness
+      propertyType: 2
