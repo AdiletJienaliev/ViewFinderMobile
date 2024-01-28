@@ -6,6 +6,9 @@ using Sirenix.OdinInspector;
 using System.Linq;
 using BzKovSoft.CharacterSlicer.Samples;
 using UnityEngine.Events;
+using Plawius.NonConvexCollider;
+using BrainFailProductions.PolyFew;
+using BrainFailProductions.PolyFewRuntime;
 
 public class CameraGizmosController : SerializedMonoBehaviour
 {
@@ -25,10 +28,12 @@ public class CameraGizmosController : SerializedMonoBehaviour
         CreateMeshCamera();
     }
 
-    private async void Update()
+    private void Update()
     {
 
     }
+
+
     private void CreateMeshCamera()
     {
         int[] triangles =
@@ -52,7 +57,7 @@ public class CameraGizmosController : SerializedMonoBehaviour
     4, 7, 6, // ближний задний треугольник
     4, 6, 5, // дальний задний треугольник
 };
-        Vector3[] vertices = Tools.GetCameraFrustumCorners(viewCam);
+        Vector3[] vertices = AJ.Tools.GetCameraFrustumCorners(viewCam);
         for (int i = 0; i < vertices.Length; i++)
         {
             vertices[i] -= viewCam.transform.position;
@@ -75,12 +80,12 @@ public class CameraGizmosController : SerializedMonoBehaviour
         photo.transform.SetParent(cam.transform);
         photo.transform.localPosition = Vector3.zero;
 
-        vertices = Tools.GetCameraFrustumCorners(viewCam);
+        vertices = AJ.Tools.GetCameraFrustumCorners(viewCam);
         //Find Slice of camera frustum
         Vector3[] top = { vertices[0], vertices[1], vertices[2], vertices[3] };
         Vector3[] bottom = { vertices[4], vertices[5], vertices[6], vertices[7] };
 
-        Vector3[] sliced = Tools.GetSliceOfPyramid(top, bottom, 0.5f);
+        Vector3[] sliced = AJ.Tools.GetSliceOfPyramid(top, bottom, 0.5f);
         for (int i = 0; i < sliced.Length; i++)
         {
             sliced[i] -= viewCam.transform.position;
@@ -114,15 +119,14 @@ public class CameraGizmosController : SerializedMonoBehaviour
         Photo = meshRenderer;
     }
 
-
     public float distanceZ;
-   
-
     int photocounter;
+
+    #region Mesh works
     private (List<GameObject> cutObject, List<GameObject> resultObjects) CutObjects(Vector3[] vertices)
     {
         photocounter++;
-        int[] triangles = Tools.GetSliceTriangles();
+        int[] triangles = AJ.Tools.GetSliceTriangles();
 
         List<GameObject> sliceNegResult = new List<GameObject>();
         List<GameObject> slicePosResult = new List<GameObject>();
@@ -176,7 +180,7 @@ public class CameraGizmosController : SerializedMonoBehaviour
 
     public List<CutObjectItem> TakePhoto()
     {
-        Vector3[] vertices = Tools.GetCameraFrustumCorners(viewCam);
+        Vector3[] vertices = AJ.Tools.GetCameraFrustumCorners(viewCam);
 
         (List<GameObject> slicedObjects, List<GameObject> resultObjects) = CutObjects(vertices);
 
@@ -231,7 +235,7 @@ public class CameraGizmosController : SerializedMonoBehaviour
         viewCam.transform.rotation = this.cam.transform.rotation;
         viewCam.transform.SetParent(null);
 
-        Vector3[] vertices = Tools.GetCameraFrustumCorners(viewCam);
+        Vector3[] vertices = AJ.Tools.GetCameraFrustumCorners(viewCam);
 
         (List<GameObject> slicedObjects, List<GameObject> resultObjects) = CutObjects(vertices);
 
@@ -278,7 +282,7 @@ public class CameraGizmosController : SerializedMonoBehaviour
         viewCam.transform.rotation = startRot;
     }
 
-
+    public bool SmartLinkB = false;
     private void CombineMesh(List<GameObject> meshes)
     {
         //Обьеденить меш
@@ -296,13 +300,41 @@ public class CameraGizmosController : SerializedMonoBehaviour
         meshCombiner.CombineMeshesWithMutliMaterial(false);
 
         CubeControllerSliceTest cube = joinedMeshes.AddComponent<CubeControllerSliceTest>();
-        MeshCollider meshCollider = joinedMeshes.AddComponent<MeshCollider>();
 
-        cube.defaultSliceMaterial = defaultMaterial;
+        joinedMeshes.layer = 7;
+        //cube.defaultSliceMaterial = defaultMaterial;
         for (int i = 0; i < meshes.Count; i++)
             if (meshes[i] != null)
                 Destroy(meshes[i]);
+        if(SmartLinkB)
+        SmartLink(joinedMeshes);
+        SetupMeshCollider(joinedMeshes);
+        //Tools.SetupMeshCombiner(joinedMeshes);
     }
+    [SerializeField] PolyfewRuntime.SimplificationOptions options = new PolyfewRuntime.SimplificationOptions();
+    private void SmartLink(GameObject mesh)
+    {
+        PolyfewRuntime.ObjectMeshPairs objectMeshPairs = PolyfewRuntime.GetObjectMeshPairs(mesh, true);
+        PolyfewRuntime.SimplifyObjectDeep(objectMeshPairs, options, (GameObject go, PolyfewRuntime.MeshRendererPair mInfo) =>
+            {
+             Debug.Log("Simplified mesh  " + mInfo.mesh.name + " on GameObject  " + go.name);
+        });
+    }
+    private void SetupMeshColliderWithPack(Mesh mesh, GameObject obj)
+    {
+
+        Mesh[] meshes = API.GenerateConvexMeshes(mesh, Parameters.Default());
+        var colliderAsset = NonConvexColliderAsset.CreateAsset(meshes);
+
+        var nonConvex = obj.AddComponent<NonConvexColliderComponent>();
+        nonConvex.SetPhysicsCollider(colliderAsset);
+    }
+    private void SetupMeshCollider(GameObject go)
+    {
+        if(!go.TryGetComponent<MeshCollider>(out MeshCollider a))
+        go.AddComponent<MeshCollider>();
+    }
+    
     private void DestroySlicedObjects(List<GameObject> slicedObjects)
     {
         //Результат резки
@@ -348,21 +380,20 @@ public class CameraGizmosController : SerializedMonoBehaviour
         // Если ни один из углов не за пределами плоскости, объект полностью на одной стороне плоскости
         return false;
     }
+    #endregion
 
     #region enter exit
     public List<GameObject> bzSliceableNoRepeats = new List<GameObject>();
     private void OnTriggerEnter(Collider other)
     {
-        IBzSliceableNoRepeat mesh;
-        if (other.TryGetComponent<IBzSliceableNoRepeat>(out mesh))
+        if (other.gameObject.layer == 7)
         {
             bzSliceableNoRepeats.Add(other.gameObject);
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        IBzSliceableNoRepeat mesh;
-        if (other.TryGetComponent<IBzSliceableNoRepeat>(out mesh))
+        if (other.gameObject.layer == 7)
         {
             bzSliceableNoRepeats.Remove(other.gameObject);
         }
@@ -378,8 +409,8 @@ public class CameraGizmosController : SerializedMonoBehaviour
         if (cam == null)
             return;
         Gizmos.color = Color.red;
-        Vector3[] vertices = Tools.GetCameraFrustumCorners(viewCam);
-        int[] triangles = Tools.GetSliceTriangles();
+        Vector3[] vertices = AJ.Tools.GetCameraFrustumCorners(viewCam);
+        int[] triangles = AJ.Tools.GetSliceTriangles();
         for (int i = 0; i < triangles.Length; i += 3)
         {
             Vector3 pos1 = vertices[triangles[i]];
