@@ -128,8 +128,8 @@ public class CameraGizmosController : SerializedMonoBehaviour
         photocounter++;
         int[] triangles = AJ.Tools.GetSliceTriangles();
 
-        List<GameObject> sliceNegResult = new List<GameObject>();
-        List<GameObject> slicePosResult = new List<GameObject>();
+        List<GameObject> cutObject = new List<GameObject>();
+        List<GameObject> resultObjects = new List<GameObject>();
         for (int s = 0; s < bzSliceableNoRepeats.Count; s++)
         {
             GameObject sliceObject = bzSliceableNoRepeats[s];
@@ -147,7 +147,9 @@ public class CameraGizmosController : SerializedMonoBehaviour
                 Vector3 pos2 = vertices[triangles[i + 2]];
 
                 Plane plane = new Plane(pos0, pos1, pos2);
-                isIntersecting = IsIntersecting(plane, sliceObject);
+
+                isIntersecting = true;
+                //isIntersecting = IsIntersecting(plane, sliceObject);
                 if (isIntersecting)
                 {
                     IBzSliceableNoRepeat sliceble = sliceObject.GetComponent<IBzSliceableNoRepeat>();
@@ -155,26 +157,36 @@ public class CameraGizmosController : SerializedMonoBehaviour
                     {
                         if (bzSliceTryResult != null && bzSliceTryResult.outObjectPos != null)
                         {
-                            sliceNegResult.Add(bzSliceTryResult.outObjectPos);
+                            cutObject.Add(bzSliceTryResult.outObjectPos);
                         }
                         if (bzSliceTryResult != null && bzSliceTryResult.outObjectNeg != null)
                         {
-                            slicePosResult.Add(bzSliceTryResult.outObjectNeg);
+                            resultObjects.Add(bzSliceTryResult.outObjectNeg);
                         }
                     });
+
+                    try
+                    {
+                        bzSliceableNoRepeats.RemoveAt(s);
+                        s--;
+                    }
+                    catch
+                    {
+
+                    }
                 }
             }
-            if (!isIntersecting)
-            {
-                if (sliceObject != null)
-                {
-                    slicePosResult.Add(sliceObject);
-                }
-            }
+            /*            if (!isIntersecting)
+                        {
+                            if (sliceObject != null)
+                            {
+                                slicePosResult.Add(sliceObject);
+                            }
+                        }*/
         }
 /*        CombineMesh(sliceNegResult);
         SlicesedObject(slicePosResult);*/
-        return (sliceNegResult, slicePosResult);
+        return (cutObject, resultObjects);
     }
 
 
@@ -194,8 +206,6 @@ public class CameraGizmosController : SerializedMonoBehaviour
             if (!cutObject.TryGetComponent<MeshRenderer>(out MeshRenderer meshRenderer) ||
                 !cutObject.TryGetComponent<MeshFilter>(out MeshFilter meshFilter))
                 continue;
-
-
 
             cutObject.transform.SetParent(viewCam.transform);
             hasRigidbody = cutObject.TryGetComponent<Rigidbody>(out Rigidbody rigidbody);
@@ -217,11 +227,6 @@ public class CameraGizmosController : SerializedMonoBehaviour
 
             cutObject.transform.SetParent(null);
         }
-
-        // Создаем новый список и добавляем в него элементы из обоих списков
-        List<GameObject> combinedList = new List<GameObject>(slicedObjects);
-        combinedList.AddRange(resultObjects);
-        CombineMesh(combinedList);
 
         return resultCutObjects;
     }
@@ -275,7 +280,7 @@ public class CameraGizmosController : SerializedMonoBehaviour
         }
         List<GameObject> combinedList = new List<GameObject>(slicedObjects);
         combinedList.AddRange(createdMeshes);
-        CombineMesh(combinedList);
+        //CombineMesh(combinedList);
 
         viewCam.transform.SetParent(startparent);
         viewCam.transform.localPosition = startPos;
